@@ -2,6 +2,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\SnakesAndLadders.Domain\SnakesAndLadders.Domain.csproj" />
+    <ProjectReference Include="..\SnakesAndLadders.Infrastructure\SnakesAndLadders.Infrastructure\SnakesAndLadders.Infrastructure.csproj" />
   </ItemGroup>
 
   <PropertyGroup>

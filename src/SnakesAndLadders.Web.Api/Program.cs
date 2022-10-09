@@ -1,4 +1,7 @@
-using SnakesAndLadders.Web.Api.Domain.Security;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using System.Text;
+using SnakesAndLadders.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -6,14 +9,19 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddSignalR();
 
-builder.Services
-    .AddIdentityServer()
-    .AddDeveloperSigningCredential();
-
-builder.Services.AddAuthentication(Scheme.Bearer)
-    .AddJwtBearer(Scheme.Bearer, options => {
-        options.Authority = "";
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options => {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = false,
+            ValidateAudience = false,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("secret key test secret key test secret key test secret key test"))
+        };
     });
+
+builder.Services.AddInfrastructureRegistrations();
 
 var app = builder.Build();
 

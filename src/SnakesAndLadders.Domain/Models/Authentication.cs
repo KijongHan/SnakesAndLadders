@@ -7,9 +7,3 @@ public enum AuthenticationClaim
 
     UserRole
 }
-
-public enum AuthenticationScheme
-{
-    Cookie,
-    JWT
-}

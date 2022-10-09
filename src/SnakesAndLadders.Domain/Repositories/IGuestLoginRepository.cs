@@ -4,7 +4,7 @@ namespace SnakesAndLadders.Domain.Repositories;
 
 public interface IGuestLoginRepository
 {
-    public Task<bool> TryCreateGuestLogin(Guest guestForm, out Guest createdGuest);
+    public Task<Guest?> TryCreateGuestLogin(Guest guestForm);
 
     public Task<bool> TryRemoveGuestLogin(Guid id);
 }
