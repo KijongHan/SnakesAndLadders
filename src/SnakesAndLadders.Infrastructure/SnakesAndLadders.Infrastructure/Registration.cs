@@ -12,6 +12,7 @@ public static class Registration
     {
         return services
             .AddSingleton<IUserAuthenticationService, UserAuthenticationService>()
+            .AddSingleton<IUserConnectionService, UserConnectionService>()
             .AddTransient<IGuestLoginRepository, GuestLoginRepository>();
     }
 }

@@ -1,13 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.3.32825.248
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.32413.511
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SnakesAndLadders.Domain", "..\src\SnakesAndLadders.Domain\SnakesAndLadders.Domain.csproj", "{AC1C1574-BC02-492B-BB6E-4878CD39A97B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SnakesAndLadders.Domain", "src\SnakesAndLadders.Domain\SnakesAndLadders.Domain.csproj", "{AC1C1574-BC02-492B-BB6E-4878CD39A97B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SnakesAndLadders.Web.Api", "..\src\SnakesAndLadders.Web.Api\SnakesAndLadders.Web.Api.csproj", "{BF31B98F-D2BC-49D5-951F-8062B5ACC1A8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SnakesAndLadders.Web.Api", "src\SnakesAndLadders.Web.Api\SnakesAndLadders.Web.Api.csproj", "{BF31B98F-D2BC-49D5-951F-8062B5ACC1A8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SnakesAndLadders.Infrastructure", "..\src\SnakesAndLadders.Infrastructure\SnakesAndLadders.Infrastructure\SnakesAndLadders.Infrastructure.csproj", "{E44A6455-3486-4AC7-9435-5072D20A63C4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SnakesAndLadders.Infrastructure", "src\SnakesAndLadders.Infrastructure\SnakesAndLadders.Infrastructure\SnakesAndLadders.Infrastructure.csproj", "{E44A6455-3486-4AC7-9435-5072D20A63C4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

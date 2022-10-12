@@ -31,20 +31,4 @@ public class AuthenticationController : Controller
             return Unauthorized();
        }
     }
-
-    [Authorize]
-    [Route("guest/myself")]
-    [HttpPost]
-    public async Task<IActionResult> GuestLoginAsync()
-    {
-        var claimsPrincipal = await authenticationService.TryAuthenticateGuestAsync(loginEntity.Guestname, JwtBearerDefaults.AuthenticationScheme);
-        if (claimsPrincipal is not null)
-        {
-            return Ok(authenticationService.GenerateJwtToken(claimsPrincipal));
-        }
-        else
-        {
-            return Unauthorized();
-        }
-    }
 }
