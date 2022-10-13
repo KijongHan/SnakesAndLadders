@@ -7,3 +7,8 @@ public enum AuthenticationClaim
 
     UserRole
 }
+
+public static class Authentication
+{
+    public const string CorsPolicy = "LocalhostCorsPolicy";
+}

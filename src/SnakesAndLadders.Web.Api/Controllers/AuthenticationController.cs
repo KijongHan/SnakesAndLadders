@@ -1,12 +1,15 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authentication;
-using SnakesAndLadders.Web.Api.Dtos;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using SnakesAndLadders.Domain.Services;
+using SnakesAndLadders.Web.Dto;
+using Microsoft.AspNetCore.Cors;
+using SnakesAndLadders.Domain.Models;
 
 namespace SnakesAndLadders.Web.Api.Controllers;
 
+[EnableCors(Authentication.CorsPolicy)]
 public class AuthenticationController : Controller
 {
     private IUserAuthenticationService authenticationService;

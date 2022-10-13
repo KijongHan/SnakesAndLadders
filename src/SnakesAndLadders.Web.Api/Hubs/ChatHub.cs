@@ -2,8 +2,9 @@
 using SnakesAndLadders.Domain.Extensions;
 using SnakesAndLadders.Domain.Repositories;
 using SnakesAndLadders.Domain.Services;
-using SnakesAndLadders.Web.Api.Extensions;
+using SnakesAndLadders.Web.Dto.Extensions;
 using Microsoft.AspNetCore.Authorization;
+using SnakesAndLadders.Web.Dto.Endpoints;
 
 namespace SnakesAndLadders.Web.Api.Hubs;
 
@@ -25,7 +26,7 @@ public class ChatHub : Hub
         {
             var chatRoom = await chatRoomRepository.TryGetChatRoom(chatRoomId);
             var msg = new Domain.Models.ChatMessage(Guid.NewGuid(), Context.User.AsUser(), message, DateTimeOffset.Now);
-            if (chatRoom is not null) await Clients.Clients(chatRoom.GetUsersConnections(u => userConnectionService.TryGetUserConnection(u.UserId))).SendAsync(nameof(ChatSendMessage), msg.AsDtoChatMessage());
+            if (chatRoom is not null) await Clients.Clients(chatRoom.GetUsersConnections(u => userConnectionService.TryGetUserConnection(u.UserId))).SendAsync(ChatHubEndpoints.ChatSendMessage, msg.AsDtoChatMessage());
         });
     }
 
@@ -37,7 +38,7 @@ public class ChatHub : Hub
             if (chatRoom is not null)
             {
                 if (chatRoomRepository.TryJoinChatRoom(chatRoomId, Context.User.AsUser(), out var updatedChatRoom))
-                    await Clients.Clients(chatRoom.GetUsersConnections(u => userConnectionService.TryGetUserConnection(u.UserId))).SendAsync(nameof(ChatJoin), updatedChatRoom?.AsDtoChatRoom());
+                    await Clients.Clients(chatRoom.GetUsersConnections(u => userConnectionService.TryGetUserConnection(u.UserId))).SendAsync(ChatHubEndpoints.ChatJoin, updatedChatRoom?.AsDtoChatRoom());
             }
         });
     }

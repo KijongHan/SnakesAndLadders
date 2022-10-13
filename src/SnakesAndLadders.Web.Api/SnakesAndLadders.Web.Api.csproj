@@ -1,6 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
   <ItemGroup>
+    <ProjectReference Include="..\..\SnakesAndLadders.Web.Dto\SnakesAndLadders.Web.Dto.csproj" />
     <ProjectReference Include="..\SnakesAndLadders.Domain\SnakesAndLadders.Domain.csproj" />
     <ProjectReference Include="..\SnakesAndLadders.Infrastructure\SnakesAndLadders.Infrastructure\SnakesAndLadders.Infrastructure.csproj" />
   </ItemGroup>
