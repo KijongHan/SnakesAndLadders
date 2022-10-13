@@ -1,0 +1,23 @@
+﻿@using SnakesAndLadders.Web.Dto;
+@using System.Text;
+@using System.Text.Json;
+@using System.Net.Mime;
+
+@page "/"
+@inject HttpClient HttpClient
+
+<PageTitle>Index</PageTitle>
+
+<h1>Hello, world!</h1>
+
+Welcome to your new app.
+
+<SurveyPrompt Title="How is Blazor working for you?" />
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        var res = await HttpClient.PostAsync("guest/login", new StringContent(JsonSerializer.Serialize(new PostGuestLogin("test1")), Encoding.UTF8, MediaTypeNames.Application.Json));
+        Console.WriteLine(res);
+    }
+}
