@@ -6,5 +6,5 @@ public static class ChatExtensions
         new ChatMessage(message.User.UserId, message.Message, message.CreatedDateTimeOffset);
 
     public static ChatRoom AsDtoChatRoom(this Domain.Models.ChatRoom room) =>
-        new ChatRoom(room.ChatRoomId, room.ChatRoomName);
+        new ChatRoom(room.ChatRoomId, room.ChatRoomName, room.Users.Select(u => new GetUser(u.Value.UserId, u.Value.UserName)).ToList());
 }

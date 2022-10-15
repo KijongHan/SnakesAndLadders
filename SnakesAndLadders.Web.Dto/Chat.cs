@@ -2,4 +2,4 @@
 
 public record ChatMessage(Guid SenderUserId, string Message, DateTimeOffset CreatedDateTimeOffset);
 
-public record ChatRoom(Guid ChatRoomId, string ChatRoomName);
+public record ChatRoom(Guid ChatRoomId, string ChatRoomName, IReadOnlyCollection<GetUser> Users);

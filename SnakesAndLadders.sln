@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SnakesAndLadders.Infrastruc
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SnakesAndLadders.Web.UI", "src\SnakesAndLadders.Web.UI\SnakesAndLadders.Web.UI.csproj", "{258A28F3-7F15-4BD3-9CEE-AC2F3B9EF61F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SnakesAndLadders.Web.Dto", "SnakesAndLadders.Web.Dto\SnakesAndLadders.Web.Dto.csproj", "{A8EA6643-2868-4C34-807C-17857E7CC651}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SnakesAndLadders.Web.Dto", "SnakesAndLadders.Web.Dto\SnakesAndLadders.Web.Dto.csproj", "{A8EA6643-2868-4C34-807C-17857E7CC651}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

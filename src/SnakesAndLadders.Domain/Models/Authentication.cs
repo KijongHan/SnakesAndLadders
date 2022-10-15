@@ -12,3 +12,5 @@ public static class Authentication
 {
     public const string CorsPolicy = "LocalhostCorsPolicy";
 }
+
+public record JwtToken(string AccessToken, string RefreshToken);

@@ -11,12 +11,17 @@ internal class ChatRoomRepository : IChatRoomRepository
     public ChatRoomRepository()
     {
         var id = Guid.NewGuid();
-        chatRooms = new Dictionary<Guid, ChatRoom> { { id, new ChatRoom(id, "General", new Dictionary<Guid, User>() ) } };
+        chatRooms = new Dictionary<Guid, ChatRoom> { { id, new ChatRoom(id, true, "General", new Dictionary<Guid, User>() ) } };
     }
 
     public void AddChatMessage(ChatMessage chatMessage)
     {
         throw new NotImplementedException();
+    }
+
+    public Task<List<ChatRoom>> GetPublicChatRooms()
+    {
+        return Task.Run(() => chatRooms.Values.Where(r => r.IsPublic).ToList());
     }
 
     public Task<ChatRoom?> TryGetChatRoom(Guid chatRoomId)

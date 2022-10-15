@@ -21,7 +21,7 @@ internal class UserAuthenticationService : IUserAuthenticationService
         this.guestLoginRepository = guestLoginRepository;
     }
 
-    public string GenerateJwtToken(ClaimsPrincipal claimsPrincipal)
+    public JwtToken GenerateJwtToken(ClaimsPrincipal claimsPrincipal)
     {
         var tokenHandler = new JwtSecurityTokenHandler();
         var tokenKey = Encoding.UTF8.GetBytes("secret key test secret key test secret key test secret key test");
@@ -32,7 +32,7 @@ internal class UserAuthenticationService : IUserAuthenticationService
             SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(tokenKey), SecurityAlgorithms.HmacSha256Signature)
         };
         var token = tokenHandler.CreateToken(tokenDescriptor);
-        return tokenHandler.WriteToken(token);
+        return new JwtToken(tokenHandler.WriteToken(token), "");
     }
 
     public async Task<ClaimsPrincipal?> TryAuthenticateGuestAsync(string guestname, string authenticationScheme)

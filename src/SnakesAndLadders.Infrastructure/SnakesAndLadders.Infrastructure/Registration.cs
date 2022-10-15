@@ -8,12 +8,11 @@ namespace SnakesAndLadders.Infrastructure;
 
 public static class Registration
 {
-    public static IServiceCollection AddInfrastructureRegistrations(this IServiceCollection services)
-    {
-        return services
+    public static IServiceCollection AddInfrastructureRegistrations(this IServiceCollection services) =>
+        services
             .AddSingleton<IUserAuthenticationService, UserAuthenticationService>()
             .AddSingleton<IUserConnectionService, UserConnectionService>()
             .AddSingleton<IChatRoomRepository, ChatRoomRepository>()
             .AddTransient<IGuestLoginRepository, GuestLoginRepository>();
-    }
+    
 }

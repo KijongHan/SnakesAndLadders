@@ -1,0 +1,42 @@
+﻿@using System.Text.Json
+@using SnakesAndLadders.Domain.Models
+@using SnakesAndLadders.Domain.Repositories
+@using SnakesAndLadders.Web.Dto
+@using System.Text
+@using System.Net.Mime
+@using System.Net.Http.Headers
+
+@page "/login"
+
+@inject HttpClient HttpClient
+@inject NavigationManager NavManager
+@inject IAuthenticationTokenRepository AuthenticationTokenRepository
+
+<h3>Login</h3>
+
+<EditForm Model="@guestLoginModel" OnValidSubmit="@HandleValidSubmit">
+    <DataAnnotationsValidator />
+
+    <InputText @bind-Value="guestLoginModel.Guestname"/>
+    <button type="submit">Submit</button>
+</EditForm>
+
+<form>
+    
+</form>
+
+@code {
+    private PostGuestLogin guestLoginModel = new();
+
+    public async void HandleValidSubmit()
+    {
+        var res = await HttpClient.PostAsync("guest/login", new StringContent(JsonSerializer.Serialize(guestLoginModel), Encoding.UTF8, MediaTypeNames.Application.Json));
+        if (res.IsSuccessStatusCode)
+        {
+            var jwtToken = await res.Content.ReadFromJsonAsync<JwtToken>();
+            await AuthenticationTokenRepository.SaveAuthorizationToken(jwtToken);
+            HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jwtToken!.AccessToken);
+            NavManager.NavigateTo("/");
+        }
+    }
+}

@@ -1,9 +1,9 @@
-﻿@using SnakesAndLadders.Web.Dto;
-@using System.Text;
-@using System.Text.Json;
-@using System.Net.Mime;
+﻿@using SnakesAndLadders.Domain.Repositories
+@using SnakesAndLadders.Web.Dto
 
 @page "/"
+@inject NavigationManager NavManager
+@inject IAuthenticationTokenRepository AuthenticationTokenRepository
 @inject HttpClient HttpClient
 
 <PageTitle>Index</PageTitle>
@@ -15,9 +15,13 @@ Welcome to your new app.
 <SurveyPrompt Title="How is Blazor working for you?" />
 
 @code {
-    protected override async Task OnInitializedAsync()
+    protected async override Task OnInitializedAsync()
     {
-        var res = await HttpClient.PostAsync("guest/login", new StringContent(JsonSerializer.Serialize(new PostGuestLogin("test1")), Encoding.UTF8, MediaTypeNames.Application.Json));
-        Console.WriteLine(res);
+        var token = await AuthenticationTokenRepository.GetAuthorizationToken();
+        if (token is null) NavManager.NavigateTo("/login");
+        else
+        {
+            var rooms = await HttpClient.GetFromJsonAsync<IReadOnlyCollection<ChatRoom>>("/chatrooms/public");
+        }
     }
 }

@@ -5,10 +5,13 @@ using SnakesAndLadders.Domain.Services;
 using SnakesAndLadders.Web.Dto.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using SnakesAndLadders.Web.Dto.Endpoints;
+using Microsoft.AspNetCore.Cors;
+using SnakesAndLadders.Domain.Models;
 
 namespace SnakesAndLadders.Web.Api.Hubs;
 
 [Authorize]
+[EnableCors(Authentication.CorsPolicy)]
 public class ChatHub : Hub
 {
     private readonly IUserConnectionService userConnectionService;
