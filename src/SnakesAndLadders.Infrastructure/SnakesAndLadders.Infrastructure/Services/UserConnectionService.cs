@@ -21,6 +21,11 @@ internal class UserConnectionService : IUserConnectionService
         return null;
     }
 
+    public bool TryRemoveUserConnection(Guid userId)
+    {
+        return userConnections.Remove(userId);
+    }
+
     public bool TrySaveUserConnection(Guid userId, string connectionId)
     {
         if (userConnections.TryAdd(userId, new UserConenction(userId, connectionId)))

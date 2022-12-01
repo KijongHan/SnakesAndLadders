@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using SnakesAndLadders.Web.Dto.Endpoints;
 using Microsoft.AspNetCore.Cors;
 using SnakesAndLadders.Domain.Models;
+using SnakesAndLadders.Web.Dto.Hub;
 
 namespace SnakesAndLadders.Web.Api.Hubs;
 
@@ -28,8 +29,8 @@ public class ChatHub : Hub
         return Task.Run(async () =>
         {
             var chatRoom = await chatRoomRepository.TryGetChatRoom(chatRoomId);
-            var msg = new Domain.Models.ChatMessage(Guid.NewGuid(), Context.User.AsUser(), message, DateTimeOffset.Now);
-            if (chatRoom is not null) await Clients.Clients(chatRoom.GetUsersConnections(u => userConnectionService.TryGetUserConnection(u.UserId))).SendAsync(ChatHubEndpoints.ChatSendMessage, msg.AsDtoChatMessage());
+            var msg = new ChatMessage(Guid.NewGuid(), Context.User.AsUser(), message, DateTimeOffset.Now);
+            if (chatRoom is not null) await Clients.Clients(chatRoom.GetUsersConnections(u => userConnectionService.TryGetUserConnection(u.UserId))).SendAsync(ChatHubEndpoints.ChatSendMessage, new ChatSendMessage(msg.AsDtoChatMessage()));
         });
     }
 
@@ -38,10 +39,9 @@ public class ChatHub : Hub
         return Task.Run(async () =>
         {
             var chatRoom = await chatRoomRepository.TryGetChatRoom(chatRoomId);
-            if (chatRoom is not null)
+            if (chatRoom is not null && chatRoomRepository.TryJoinChatRoom(chatRoomId, Context.User.AsUser(), out var updatedChatRoom))
             {
-                if (chatRoomRepository.TryJoinChatRoom(chatRoomId, Context.User.AsUser(), out var updatedChatRoom))
-                    await Clients.Clients(chatRoom.GetUsersConnections(u => userConnectionService.TryGetUserConnection(u.UserId))).SendAsync(ChatHubEndpoints.ChatJoin, updatedChatRoom?.AsDtoChatRoom());
+                await Clients.Clients(chatRoom.GetUsersConnections(u => userConnectionService.TryGetUserConnection(u.UserId))).SendAsync(ChatHubEndpoints.ChatJoin, new ChatJoin(updatedChatRoom!.AsDtoChatRoom()));
             }
         });
     }
@@ -51,6 +51,14 @@ public class ChatHub : Hub
         return Task.Run(() =>
         {
             userConnectionService.TrySaveUserConnection(Context.User!.GetUserId(), Context.ConnectionId);
+        });
+    }
+
+    public override Task OnDisconnectedAsync(Exception? exception)
+    {
+        return Task.Run(() =>
+        {
+            userConnectionService.TryRemoveUserConnection(Context.User!.GetUserId());
         });
     }
 }

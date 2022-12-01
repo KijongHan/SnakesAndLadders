@@ -1,9 +1,13 @@
 ﻿@using SnakesAndLadders.Domain.Repositories
 @using SnakesAndLadders.Web.Dto
+@using SnakesAndLadders.Web.Dto.Services;
+
+@implements IDisposable
 
 @page "/"
 @inject NavigationManager NavManager
 @inject IAuthenticationTokenRepository AuthenticationTokenRepository
+@inject ChatConnectionService ChatConnectionService
 @inject HttpClient HttpClient
 
 <PageTitle>Index</PageTitle>
@@ -15,13 +19,36 @@ Welcome to your new app.
 <SurveyPrompt Title="How is Blazor working for you?" />
 
 @code {
+    private IReadOnlyCollection<ChatRoom>? chatRooms;
+
     protected async override Task OnInitializedAsync()
     {
         var token = await AuthenticationTokenRepository.GetAuthorizationToken();
         if (token is null) NavManager.NavigateTo("/login");
         else
         {
-            var rooms = await HttpClient.GetFromJsonAsync<IReadOnlyCollection<ChatRoom>>("/chatrooms/public");
+            await ChatConnectionService.InitializeAsync();
+            ChatConnectionService.ChatJoinEvent += HandleChatJoin;
+            ChatConnectionService.ChatSendMessageEvent += HandleChatSendMessageEvent;
+
+            chatRooms = await HttpClient.GetFromJsonAsync<IReadOnlyCollection<ChatRoom>>("/chatrooms/public");
+            await Task.WhenAll(chatRooms!.Select(room => ChatConnectionService.JoinChatRoomAsync(room.ChatRoomId)));
         }
+    }
+
+    public void HandleChatSendMessageEvent(object? sender, ChatSendMessageEvent e)
+    {
+        
+    }
+
+    public void HandleChatJoin(object? sender, ChatJoinEvent e)
+    {
+
+    }
+
+    public void Dispose()
+    {
+        ChatConnectionService.ChatJoinEvent -= HandleChatJoin;
+        ChatConnectionService.ChatSendMessageEvent -= HandleChatSendMessageEvent;
     }
 }

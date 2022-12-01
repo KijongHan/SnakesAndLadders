@@ -6,5 +6,7 @@ public interface IUserConnectionService
 {
     public bool TrySaveUserConnection(Guid userId, string connectionId);
 
+    public bool TryRemoveUserConnection(Guid userId);
+
     public UserConenction? TryGetUserConnection(Guid userId);
 }
